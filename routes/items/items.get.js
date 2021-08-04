@@ -1,5 +1,6 @@
 const { json } = require('express');
 const express = require('express');
+const { BOOLEAN } = require('sequelize');
 const fileSystem = require('../../file-system');
 const {Item}  = require('../../models/index')
 
@@ -45,6 +46,7 @@ const reqHandler = (filter, order) => {
   return filtration(sortedArr);
 }
 
+
 getItems.get('/', async (req, res) => {
   const {filterBy, order, page} = req.query;
   // const resArr = reqHandler(filterBy, order);
@@ -54,9 +56,16 @@ getItems.get('/', async (req, res) => {
   //   pagArr,
   //   showingItems,
   // };
-  console.log(filterBy)
+  const filter = {};
+  if (filterBy) {
+    filter.done = filterBy
+  }
+
   const items = await Item.findAll({
-    order: [["createdAt", filterBy]]
+    limit: 5,
+    offset: (page - 1) * 5,
+    order: [["createdAt", order]],
+    where: filter,
   });
   res.status(200).send(items);
 });
