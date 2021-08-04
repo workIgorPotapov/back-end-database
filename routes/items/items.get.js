@@ -46,7 +46,7 @@ const reqHandler = (filter, order) => {
 }
 
 getItems.get('/', async (req, res) => {
-  // const {filterBy, order, page} = req.query;
+  const {filterBy, order, page} = req.query;
   // const resArr = reqHandler(filterBy, order);
   // showingItems = resArr.length.toString();
   // const pagArr = pagination(page, resArr);
@@ -54,7 +54,10 @@ getItems.get('/', async (req, res) => {
   //   pagArr,
   //   showingItems,
   // };
-  const items = await Item.findAll();
+  console.log(filterBy)
+  const items = await Item.findAll({
+    order: [["createdAt", filterBy]]
+  });
   res.status(200).send(items);
 });
 

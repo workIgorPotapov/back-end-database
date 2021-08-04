@@ -12,10 +12,15 @@ patchItem.patch('/:id', async (req, res) => {
     // if (comparingId(id)) {
     //   throw Error('Task not found');
     // }
-    const changedItem = req.body;
+    const name = req.body.name;
+    const done = req.body.done;
+    console.log(done)
     const updItem = await Item.findOne({ where: {uuid: id} });
-    if (changedItem.name) {
-      updItem.name = changedItem.name;
+    if (name) {
+      updItem.name = name;
+    }
+    if (done) {
+      updItem.done = done;
     }
     // const targetItem = array.find(item => item.uuid === id);
     // for (let key in changedItem) {
