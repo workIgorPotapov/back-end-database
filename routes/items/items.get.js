@@ -61,7 +61,7 @@ getItems.get('/', async (req, res) => {
     (filterBy === 'done') ? filter.done = true : filter.done = false
   }
 
-  const items = await Item.findAll({
+  const items = await Item.findAndCountAll({
     limit: 5,
     offset: (page - 1) * 5,
     order: [["createdAt", order]],
