@@ -58,7 +58,7 @@ getItems.get('/', async (req, res) => {
   // };
   const filter = {};
   if (filterBy) {
-    filter.done = filterBy
+    (filterBy === 'done') ? filter.done = true : filter.done = false
   }
 
   const items = await Item.findAll({
